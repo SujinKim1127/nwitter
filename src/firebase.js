@@ -12,12 +12,12 @@ import * as firebase from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBkRnykHH5jbCNfXVufeOsvj6Q1G6V1Oo0",
-  authDomain: "ntwitter-edd1c.firebaseapp.com",
-  projectId: "ntwitter-edd1c",
-  storageBucket: "ntwitter-edd1c.appspot.com",
-  messagingSenderId: "824339276495",
-  appId: "1:824339276495:web:69adde051d9bddb0e10dba"
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID
 };
 
 
