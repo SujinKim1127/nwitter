@@ -1,7 +1,9 @@
 // Import the functions you need from the SDKs you need
 // import { initializeApp } from "firebase/app";
 
-import * as firebase from "firebase/app";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+
 // import firebase from "firebase/compat/app";
 // import "firebase/compat/auth";
 // import "firebase/compat/firestore";
@@ -20,10 +22,12 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID
 };
 
+firebase.initializeApp(firebaseConfig);
 
+export const authService = firebase.auth();
 // Initialize Firebase
 // const app = initializeApp(firebaseConfig);
-export default firebase.initializeApp(firebaseConfig);
+// export default firebase.initializeApp(firebaseConfig);
 // initializeApp 함수를 firebase 객체에서 꺼내 사용한것
 // 앞에서 복사한 값을 firebaseConfig에 담아 전달해서 실행
 // firebase를 초기화해 모듈로 내보낼 수 있음
