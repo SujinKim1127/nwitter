@@ -7,7 +7,6 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userObj, setUserObj] = useState(null);
 
-
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if(user) {  // 로그인 상태로 변경
@@ -24,7 +23,7 @@ function App() {
   return (
     <>
         {init ? (
-          <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} /> 
+          <AppRouter isLoggedIn={isLoggedIn} userObj={userObj}/> 
             ) : (
               "initializing..."
             )} 

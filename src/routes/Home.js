@@ -1,18 +1,21 @@
 import { dbService } from "fbase";
 import { useEffect, useState } from "react";
+import Nweet from "components/Nweet";
 
 const Home = ({ userObj }) => {
+    console.log(userObj);
     const [nweet, setNweet] = useState("");
     const [nweets, setNweets] = useState([]);
 
 
     useEffect(() => {
         dbService.collection("nweets").onSnapshot((snapshot) => {
-          const nweetArray = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          setNweets(nweetArray);
+            const nweetArray = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            console.log(nweetArray);
+            setNweets(nweetArray);
         });
       }, []);
 
@@ -21,6 +24,7 @@ const Home = ({ userObj }) => {
         await dbService.collection("nweets").add({
             text: nweet,
             createdAT: Date.now(),
+            creatorId: userObj.uid,
         });
         setNweet("");
     };
@@ -48,9 +52,11 @@ const Home = ({ userObj }) => {
 
             <div>
                 {nweets.map((nweet) => (
-                    <div key={nweet.id}>
-                        <h4>{nweet.text}</h4>
-                    </div>
+                    <Nweet 
+                        key={nweet.id} 
+                        nweetObj={nweet}
+                        isOwner={nweet.creatorId === userObj.uid}
+                    />
                 ))}
             </div>
         </>
