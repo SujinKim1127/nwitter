@@ -4,7 +4,6 @@ import Nweet from "components/Nweet";
 import { v4 as uuidv4 } from "uuid";
 
 const Home = ({ userObj }) => {
-    console.log(userObj);
     const [nweet, setNweet] = useState("");
     const [nweets, setNweets] = useState([]);
     const [attachment, setAttachment] = useState("");
@@ -16,7 +15,6 @@ const Home = ({ userObj }) => {
                 id: doc.id,
                 ...doc.data(),
             }));
-            console.log(nweetArray);
             setNweets(nweetArray);
         });
       }, []);
