@@ -10,8 +10,11 @@ function App() {
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if(user) {  // 로그인 상태로 변경
-        setIsLoggedIn(user);
-        setUserObj(user);
+        setUserObj({
+          uid: user.uid,
+          displayName: user.displayName,
+          updateProfile: (args) => user.updateProfile(args),
+        });
       } else {
         setIsLoggedIn(false);
       }
@@ -19,11 +22,20 @@ function App() {
     });
   }, []);
 
+  const refreshUser = () => {
+    const user = authService.currentUser;
+    setUserObj({
+      uid: user.uid,
+      displayName: user.displayName,
+      updateProfile: (args) => user.updateProfile(args),
+    });
+  };
+
   // 삼항 연산자로 init 상태 감시
   return (
     <>
         {init ? (
-          <AppRouter isLoggedIn={isLoggedIn} userObj={userObj}/> 
+          <AppRouter refreshUser={refreshUser} isLoggedIn={Boolean(userObj)} userObj={userObj}/> 
             ) : (
               "initializing..."
             )} 
