@@ -8,7 +8,10 @@ const Home = ({ userObj }) => {
 
 
     useEffect(() => {
-        dbService.collection("nweets").onSnapshot((snapshot) => {
+        dbService
+        .collection("nweets")
+        // .orderBy("createdAt", "desc") // 오류 날 수 있음 그래서 주석처리
+        .onSnapshot((snapshot) => {
             const nweetArray = snapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
@@ -19,9 +22,9 @@ const Home = ({ userObj }) => {
 
 
     return (
-        <>
+        <div className="container">
             <NweetFactory userObj={userObj}/>
-            <div>
+            <div style={{ marginTop: 30}}>
                 {nweets.map((nweet) => (
                     <Nweet 
                         key={nweet.id} 
@@ -30,7 +33,7 @@ const Home = ({ userObj }) => {
                     />
                 ))}
             </div>
-        </>
+        </div>
     );
 };
 
