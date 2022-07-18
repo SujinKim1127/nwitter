@@ -63,8 +63,8 @@ const NweetFactory = ({ userObj }) => {
 
     return(
         <form onSubmit={onSubmit} className="factoryForm">
-            <div className="factoryInput__container">
-                <input
+            <div className="factoryInput__container" style={{marginTop: 20,}}>
+                <input 
                     className="factoryInput__input"
                     value={nweet}
                     onChange={onChange}

@@ -2,9 +2,13 @@ import { eventWrapper } from "@testing-library/user-event/dist/utils";
 import { authService, dbService } from "fbase";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import Nweet from "components/Nweet";
+import NweetFactory from "components/NweetFactory";
+
 
 const Profile = ({ userObj, refreshUser }) => {
     const history = useHistory();
+    const [nweets, setNweets] = useState([]);
     const [newDisplayName, seteNewDisplayName] = useState(userObj.newDisplayName);
     
     const onLogOutClick = () => {
@@ -12,19 +16,20 @@ const Profile = ({ userObj, refreshUser }) => {
         history.push("/");
     };
 
-    // const getMyNweets = async () => {
-    //     const nweets = await dbService
-    //         .collection("nweets")
-    //         .where("creatorId", "==", userObj.uid)     // where함수로 creatorId 필드에서 userObj.uid와 같은 값을 찾기 위한 표현
-    //         // .orderBy("createdAt")           // 오름차순 정리
-    //         .get(); // 앞에 3개 collection, where, orderBy 실행하는 함수
 
-    //     console.log(nweets.docs.map((doc) => doc.data()));
-    // };
+    useEffect(() => {
+        dbService
+        .collection("nweets")
+        .onSnapshot((snapshot) => {
+            const nweetArray = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            setNweets(nweetArray);
+        });
+      }, []);
 
-    // useEffect(() => {
-    //     getMyNweets();
-    // }, []);
+
 
     const onChange = (event) => {
         const {
@@ -42,7 +47,9 @@ const Profile = ({ userObj, refreshUser }) => {
     }
 
     return (
+
         <div className="container">
+            
             <form onSubmit={onSubmit} className="profileForm">
                 <input 
                     onChange={onChange}
@@ -60,6 +67,17 @@ const Profile = ({ userObj, refreshUser }) => {
                     }}
                 />
             </form>
+
+            <NweetFactory userObj={userObj}/>
+            <div style={{ marginTop: 30}}>
+                {nweets.map((nweet) => (
+                    <Nweet 
+                        key={nweet.id} 
+                        nweetObj={nweet}
+                        isOwner={nweet.creatorId === userObj.uid}
+                    />
+                ))}
+            </div>
             <span className="formBtn cancelBtn logOut" onClick={onLogOutClick}>
                 Log Out
             </span>
